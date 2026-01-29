@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
-import '../core/network/dio_client.dart';
 import '../core/network/api_services.dart';
 import '../data/model/user_model.dart';
 
 class UserController extends GetxController {
-  late final ApiService _apiService;
+  final ApiService _apiService = Get.find<ApiService>();
 
   final RxBool isLoading = false.obs;
   final RxnString error = RxnString();
@@ -13,10 +12,6 @@ class UserController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    final dio = DioClient.create();
-    _apiService = ApiService(dio);
-
     fetchUsers();
   }
 
