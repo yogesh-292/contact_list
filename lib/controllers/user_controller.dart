@@ -1,17 +1,22 @@
 import 'package:get/get.dart';
-import '../data/services/api_services.dart';
+import '../core/network/dio_client.dart';
+import '../core/network/api_services.dart';
 import '../data/model/user_model.dart';
 
 class UserController extends GetxController {
-  final ApiService _apiService = ApiService.create();
+  late final ApiService _apiService;
 
-  final RxBool isLoading = true.obs;
+  final RxBool isLoading = false.obs;
   final RxnString error = RxnString();
   final RxList<User> users = <User>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+
+    final dio = DioClient.create();
+    _apiService = ApiService(dio);
+
     fetchUsers();
   }
 
@@ -23,7 +28,7 @@ class UserController extends GetxController {
       final result = await _apiService.getUsers();
       users.assignAll(result);
     } catch (e) {
-      print('error----> $e');
+      print('error---> $e');
     } finally {
       isLoading.value = false;
     }
