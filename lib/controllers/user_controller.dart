@@ -18,10 +18,12 @@ class UserController extends BaseController {
       _apiService.getUsers(),
       showLoader: true,
     );
+    debugPrint('runtime type: ${result.runtimeType}');
 
-    if (result != null) {
-      debugPrint('runtime type: ${result.runtimeType}');
+    if (result is List<User>) {
       users.assignAll(result);
+    } else {
+      Get.snackbar("Server Error", "this is an internal server Error");
     }
   }
 }

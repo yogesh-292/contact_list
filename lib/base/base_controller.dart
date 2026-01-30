@@ -1,13 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_practice/core/app_imports.dart';
 
-/// Type definition for custom API error handlers.
-/// Returns a [Future<bool>] indicating if the error was handled.
 typedef ApiErrorHandler = Future<bool> Function(DioException error);
 
-/// BaseController provides common API call handling logic for all controllers.
-/// It manages loading indicators, error handling, and logging for API requests.
-/// Extend this class to inherit robust API call patterns across your app. 🚀
 class BaseController extends GetxController {
   var isLoading = false.obs;
 
@@ -74,9 +69,6 @@ class BaseController extends GetxController {
     return null;
   }
 
-  /// Handles API response errors by logging detailed information for debugging.
-  ///
-  /// [error]: The DioException thrown during the API call.
   Future<void> onResponseError(DioException error) async {
     try {
       final url = error.requestOptions.uri.toString();
