@@ -1,23 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_practice/core/app_imports.dart';
+import 'core/bindings/app_binding.dart';
 
-import '../controllers/user_controller.dart';
-import './screens/contacts_list_screen.dart';
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(UserController());
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Contacts'),
-        centerTitle: true,
-        backgroundColor: Colors.amber,
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter App',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      body: const ContactsListScreen(),
+      initialBinding: AppBinding(),
+      home: const HomeScreen(),
     );
   }
 }

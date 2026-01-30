@@ -2,5 +2,10 @@ export 'package:get/get.dart';
 export 'package:flutter/material.dart';
 export '../app.dart';
 export '../data/model/user_model.dart';
-
+export '../controllers/user_controller.dart';
 export '../core/config/config.dart';
+export '../init_dependencies.dart';
+export '../screens/home_screen.dart';
+export '../core/network/api_interceptor.dart';
+export '../core/network/https_status.dart';
+export '../base/base_controller.dart';

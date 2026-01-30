@@ -1,11 +1,9 @@
-import 'package:get/get.dart';
 import '../core/network/api_services.dart';
-import '../data/model/user_model.dart';
+import 'package:flutter_practice/core/app_imports.dart';
 
-class UserController extends GetxController {
+class UserController extends BaseController {
   final ApiService _apiService = Get.find<ApiService>();
 
-  final RxBool isLoading = false.obs;
   final RxnString error = RxnString();
   final RxList<User> users = <User>[].obs;
 
@@ -16,16 +14,14 @@ class UserController extends GetxController {
   }
 
   Future<void> fetchUsers() async {
-    try {
-      isLoading.value = true;
-      error.value = null;
+    final result = await callApi(
+      _apiService.getUsers(),
+      showLoader: true,
+    );
 
-      final result = await _apiService.getUsers();
+    if (result != null) {
+      debugPrint('runtime type: ${result.runtimeType}');
       users.assignAll(result);
-    } catch (e) {
-      print('error---> $e');
-    } finally {
-      isLoading.value = false;
     }
   }
 }

@@ -6,7 +6,7 @@ part 'api_services.g.dart';
 
 @RestApi()
 abstract class ApiService {
-  factory ApiService(Dio dio) = _ApiService;
+  factory ApiService(Dio dio, {required String baseUrl}) = _ApiService;
 
   @GET('users')
   Future<List<User>> getUsers();
