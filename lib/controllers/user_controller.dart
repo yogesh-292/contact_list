@@ -31,7 +31,7 @@ class UserController extends BaseController {
           }
         },
         onError: (error) {
-          Get.snackbar('Error', 'Failed to fetch users');
+          debugPrint("Failed to fetch users -----> $error");
         });
   }
 }

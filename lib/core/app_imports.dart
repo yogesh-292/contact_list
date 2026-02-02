@@ -8,3 +8,4 @@ export '../init_dependencies.dart';
 export '../screens/home_screen.dart';
 export '../core/network/api_interceptor.dart';
 export '../base/base_controller.dart';
+export '../core/network/http_status_codes.dart';

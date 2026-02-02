@@ -26,13 +26,21 @@ abstract class BaseController extends GetxController {
       if (onSuccess != null) {
         onSuccess(response);
       }
-    } on DioException catch (e) {
+    } on DioException catch (dioError) {
       if (showLoader) loading.value = false;
 
-      _handleDioError(e);
+      if (dioError.response?.statusCode == HttpStatusCodes.forbidden) {
+        debugPrint("403 error");
+      } else if (dioError.response?.statusCode == HttpStatusCodes.unauthorized) {
+        debugPrint("401 error");
+      } else if (dioError.response?.statusCode == HttpStatusCodes.internalServerError) {
+        debugPrint("500 error");
+      }
+
+      onErrorResponse(dioError);
 
       if (onError != null) {
-        onError(e);
+        onError(dioError);
       }
     } catch (e) {
       if (showLoader) loading.value = false;
@@ -42,12 +50,19 @@ abstract class BaseController extends GetxController {
 
   //helper fucntion for error handling
 
-  void _handleDioError(DioException error) {
+  void onErrorResponse(DioException error) {
     final statusCode = error.response?.statusCode;
-    // Extracts error code or key from the response, if available.
-    final message = error.response?.data?['message'];
 
-    // Log all relevant error details for troubleshooting
+    String? message;
+
+    final data = error.response?.data;
+
+    if (data is Map<String, dynamic>) {
+      message = data['message'];
+    } else if (data is String) {
+      message = data;
+    }
+
     debugPrint(
       'API Error → $statusCode | ${error.requestOptions.uri} | $message',
     );
