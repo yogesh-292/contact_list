@@ -7,5 +7,4 @@ export '../core/config/config.dart';
 export '../init_dependencies.dart';
 export '../screens/home_screen.dart';
 export '../core/network/api_interceptor.dart';
-export '../core/network/https_status.dart';
 export '../base/base_controller.dart';

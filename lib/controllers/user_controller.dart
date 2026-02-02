@@ -13,17 +13,25 @@ class UserController extends BaseController {
     fetchUsers();
   }
 
-  Future<void> fetchUsers() async {
-    final result = await callApi(
-      _apiService.getUsers(),
-      showLoader: true,
-    );
-    debugPrint('runtime type: ${result.runtimeType}');
+  void fetchUsers() {
+    executeApi(
+        request: () => _apiService.getUsers(),
+        showLoader: true,
+        onSuccess: (data) {
+          if (data == null) {
+            error.value = 'No data recieved';
+            return;
+          }
+          debugPrint('the runtime type of data -----> ${data.runtimeType}');
 
-    if (result is List<User>) {
-      users.assignAll(result);
-    } else {
-      Get.snackbar("Server Error", "this is an internal server Error");
-    }
+          if (data is List<User>) {
+            users.assignAll(data);
+          } else {
+            Get.snackbar("server error", "this is an internal server Error");
+          }
+        },
+        onError: (error) {
+          Get.snackbar('Error', 'Failed to fetch users');
+        });
   }
 }

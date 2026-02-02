@@ -11,7 +11,7 @@ class ContactsListScreen extends StatelessWidget {
     final controller = Get.find<UserController>();
 
     return Obx(() {
-      if (controller.isLoading.value) {
+      if (controller.loading.value) {
         return const Center(
             child: CircularProgressIndicator(
           color: Colors.orange,

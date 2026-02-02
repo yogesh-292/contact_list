@@ -1,92 +1,55 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_practice/core/app_imports.dart';
 
-typedef ApiErrorHandler = Future<bool> Function(DioException error);
+abstract class BaseController extends GetxController {
+  final RxBool loading = false.obs;
 
-class BaseController extends GetxController {
-  var isLoading = false.obs;
+  //Executes an API call safely
 
-  Future<T?> callApi<T>(
-    Future<T> request, {
+  Future<void> executeApi({
+    required Future<dynamic> Function() request,
+
+    ///onSuccess might exist
+    ///if it exists, I can call it like:
+    ///onSuccess(someData)
+    Function(dynamic data)? onSuccess,
+    Function(DioException error)? onError,
     bool showLoader = true,
-    ApiErrorHandler? apiErrorHandler,
-    bool rethrowError = false,
-    bool reportError = true,
   }) async {
     try {
-      if (showLoader) isLoading.value = true;
+      if (showLoader) loading.value = true;
 
-      final response = await request;
+      final response = await request();
 
-      if (showLoader) isLoading.value = false;
+      if (showLoader) loading.value = false;
 
-      return response;
-    } on DioException catch (dioError) {
-      if (showLoader) isLoading.value = false;
-
-      // 🌐 Handle specific HTTP status codes for better UX
-      if (dioError.response?.statusCode == HttpStatusCode.badGateway.value) {
-        // 502: Server is down
-        debugPrint('⚠️ Server is down, please try again later.');
-      } else if (dioError.response?.statusCode == HttpStatusCode.unauthorized.value) {
-        // 401: Unauthorized
-        debugPrint('🔒 Unauthorized access');
-      } else if (dioError.response?.statusCode == HttpStatusCode.badRequest.value) {
-        // 400: Bad request
-        debugPrint('🚫 Forbidden access');
-      } else if (dioError.response?.statusCode == HttpStatusCode.notFound.value) {
-        // 404: Not found
-        debugPrint('❓ Resource not found');
-      } else if (dioError.response?.statusCode == HttpStatusCode.internalServerError.value) {
-        // 500: Internal server error
-        debugPrint('💥 Internal server error');
-      } else if (dioError.response?.statusCode == HttpStatusCode.found.value) {
-        return dioError.response?.data;
-      } else {
-        // Other status codes
-        debugPrint('API call for endpoint ${request.toString()} with status code: ${dioError.response?.statusCode}');
+      if (onSuccess != null) {
+        onSuccess(response);
       }
+    } on DioException catch (e) {
+      if (showLoader) loading.value = false;
 
-      // 🛠️ Use custom error handler if provided, else fallback to default
-      if (apiErrorHandler != null) {
-        final result = await apiErrorHandler(dioError);
-        if (!result) {
-          await onResponseError(dioError);
-        }
-      } else {
-        await onResponseError(dioError);
+      _handleDioError(e);
+
+      if (onError != null) {
+        onError(e);
       }
-    } catch (error) {
-      if (showLoader) {}
-      if (rethrowError) rethrow;
-      if (reportError) {
-        // 📝 Log unexpected errors for debugging
-        final logErrorMessage = 'callApi method error :: Error -> ${error.runtimeType} => $error';
-        debugPrint(logErrorMessage);
-      }
+    } catch (e) {
+      if (showLoader) loading.value = false;
+      debugPrint('Unexpected error: $e');
     }
-    // Return null if an error occurred
-    return null;
   }
 
-  Future<void> onResponseError(DioException error) async {
-    try {
-      final url = error.requestOptions.uri.toString();
-      final headers = error.requestOptions.headers;
-      final queryParams = error.requestOptions.queryParameters;
-      final data = error.requestOptions.data;
-      final errorStatusCode = error.response?.statusCode;
-      final errorMessage = error.response?.data?['message'];
-      // Extracts error code or key from the response, if available.
-      final errorKey = error.response?.data?['errorCode'] as String? ?? error.response?.data?['error'] as String? ?? '';
-      // 🐞 Log all relevant error details for troubleshooting
-      debugPrint(
-        'onResponseError: $errorKey || $errorStatusCode || $url || $queryParams || $headers || $data || $errorMessage',
-      );
-    } catch (e) {
-      // Catch and log any exceptions thrown during error handling itself.
-      debugPrint('Exception returned from onResponseError: ${e.toString()}');
-      return;
-    }
+  //helper fucntion for error handling
+
+  void _handleDioError(DioException error) {
+    final statusCode = error.response?.statusCode;
+    // Extracts error code or key from the response, if available.
+    final message = error.response?.data?['message'];
+
+    // Log all relevant error details for troubleshooting
+    debugPrint(
+      'API Error → $statusCode | ${error.requestOptions.uri} | $message',
+    );
   }
 }
