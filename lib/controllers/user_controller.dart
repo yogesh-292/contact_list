@@ -26,8 +26,14 @@ class UserController extends BaseController {
 
           if (data is List<User>) {
             users.assignAll(data);
+
+            Get.snackbar("Success", "Contacts fetched successfully",
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.green.shade600,
+                colorText: Colors.white,
+                duration: const Duration(seconds: 2));
           } else {
-            Get.snackbar("server error", "this is an internal server Error");
+            Get.snackbar("server error", "Unexpected response format", snackPosition: SnackPosition.BOTTOM);
           }
         },
         onError: (error) {

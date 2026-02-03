@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import './contacts_list_screen.dart';
+import 'package:flutter_practice/core/app_imports.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Contacts'),
         centerTitle: true,
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black.withAlpha(80),
       ),
       body: const ContactsListScreen(),
     );

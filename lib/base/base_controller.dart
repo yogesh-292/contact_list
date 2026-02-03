@@ -9,9 +9,10 @@ abstract class BaseController extends GetxController {
   Future<void> executeApi({
     required Future<dynamic> Function() request,
 
-    ///onSuccess might exist
-    ///if it exists, I can call it like:
-    ///onSuccess(someData)
+    /// onSuccess callback (optional)
+    /// - If provided, it will be called with the API response data
+    /// - Example usage: onSuccess(userData) => processUserData(userData)
+    /// - The callback receives the response from the API call
     Function(dynamic data)? onSuccess,
     Function(DioException error)? onError,
     bool showLoader = true,
@@ -31,6 +32,8 @@ abstract class BaseController extends GetxController {
 
       if (dioError.response?.statusCode == HttpStatusCodes.forbidden) {
         debugPrint("403 error");
+        Get.snackbar("Client Error(403)", "this is a client side error",
+            backgroundColor: Colors.red, colorText: Colors.white);
       } else if (dioError.response?.statusCode == HttpStatusCodes.unauthorized) {
         debugPrint("401 error");
       } else if (dioError.response?.statusCode == HttpStatusCodes.internalServerError) {
@@ -51,6 +54,7 @@ abstract class BaseController extends GetxController {
   //helper fucntion for error handling
 
   void onErrorResponse(DioException error) {
+    debugPrint('the dio error ----------> $error');
     final statusCode = error.response?.statusCode;
 
     String? message;
