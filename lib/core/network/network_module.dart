@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_practice/core/network/api_services.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:flutter_practice/core/app_imports.dart';
+import './quotes_api_service.dart';
 
 class NetworkModule {
   static Dio prepareDio() {
@@ -33,4 +34,5 @@ class NetworkModule {
   ///returns a fully configured API client
 
   static ApiService getRestClient() => ApiService(Get.find<Dio>(), baseUrl: BaseConfig.baseUrl);
+  static QuotesApiService getQuotesClient() => QuotesApiService(Get.find<Dio>(), baseUrl: BaseConfig.quotesUrl);
 }

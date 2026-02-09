@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/user_controller.dart';
+import 'package:flutter_practice/core/app_imports.dart';
 
 class ContactsListScreen extends StatelessWidget {
   const ContactsListScreen({super.key});
@@ -45,6 +43,9 @@ class ContactsListScreen extends StatelessWidget {
             final user = controller.users[index];
 
             return ListTile(
+              onTap: () {
+                Get.to(() => ContactDetailsScreen(user: user));
+              },
               leading: CircleAvatar(
                 backgroundColor: const Color.fromARGB(192, 43, 43, 42),
                 child: Text(
@@ -54,6 +55,7 @@ class ContactsListScreen extends StatelessWidget {
               ),
               title: Text(user.name),
               subtitle: Text(user.phone),
+              trailing: Icon(Icons.navigate_next),
             );
           },
         ),

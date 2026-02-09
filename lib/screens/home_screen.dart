@@ -1,4 +1,3 @@
-import './contacts_list_screen.dart';
 import 'package:flutter_practice/core/app_imports.dart';
 
 class HomeScreen extends StatelessWidget {
