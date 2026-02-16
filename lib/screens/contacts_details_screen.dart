@@ -13,11 +13,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Contact Details"),
-        centerTitle: true,
-        backgroundColor: Colors.grey,
-      ),
+      appBar: AppBar(title: const Text("Contact Details"), centerTitle: true, backgroundColor: Colors.grey),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -32,11 +28,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
               backgroundColor: const Color.fromARGB(192, 43, 43, 42),
               child: Text(
                 widget.user.initials,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
               ),
             ),
 
@@ -49,13 +41,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(08),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                boxShadow: [BoxShadow(color: Colors.black.withAlpha(08), blurRadius: 10, offset: const Offset(0, 4))],
               ),
               child: Column(
                 children: [
@@ -69,20 +55,10 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                   const AppDivider(height: 20),
                   InfoRow(label: "Address", value: widget.user.address.fullAddress),
                   const AppDivider(height: 20),
-                  InfoRow(
-                    label: "Catch Phrase",
-                    value: widget.user.company.catchPhrase,
-                  ),
+                  InfoRow(label: "Catch Phrase", value: widget.user.company.catchPhrase),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-                onPressed: () {
-                  Get.to(() => Screen3());
-                },
-                child: Text("Screen 3"))
           ],
         ),
       ),

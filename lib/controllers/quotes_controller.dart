@@ -14,26 +14,35 @@ class QuotesController extends BaseController {
     fetchQuotes();
   }
 
-  void fetchQuotes() {
-    executeApi(
+  Future<void> fetchQuotes() {
+    return executeApi(
       request: () => _quotesApiService.getQuotes(),
       showLoader: true,
       onSuccess: (data) {
         if (data == null) {
-          error.value = 'No data received';
+          error.value = 'No data recieved';
           return;
         }
 
-        debugPrint('the runtimeType of the quotes data is ------> ${data.runtimeType}');
+        debugPrint('the runtime type of the quotes data is -----> ${data.runtimeType}');
 
         if (data is QuotesResponse) {
           quotes.assignAll(data.quotes);
+
+          Get.snackbar(
+            "Success",
+            "Quotes fetched successfully",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green.shade600,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 2),
+          );
         } else {
-          debugPrint('Unxpected response type: ${data.runtimeType}');
+          Get.snackbar("server error", "Unexpected response format", snackPosition: SnackPosition.BOTTOM);
         }
       },
       onError: (err) {
-        debugPrint("Error while fetching quotes ---> $err");
+        debugPrint("error while fetching quotes ---> $err");
         error.value = err.toString();
       },
     );

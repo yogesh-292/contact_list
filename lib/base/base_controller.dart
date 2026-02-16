@@ -32,12 +32,22 @@ abstract class BaseController extends GetxController {
 
       if (dioError.response?.statusCode == HttpStatusCodes.forbidden) {
         debugPrint("403 error");
-        Get.snackbar("Client Error(403)", "this is a client side error",
-            backgroundColor: Colors.red, colorText: Colors.white);
+        Get.snackbar(
+          "Client Error(403)",
+          "this is a client side error",
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
       } else if (dioError.response?.statusCode == HttpStatusCodes.unauthorized) {
         debugPrint("401 error");
       } else if (dioError.response?.statusCode == HttpStatusCodes.internalServerError) {
         debugPrint("500 error");
+      } else if (dioError.response?.statusCode == HttpStatusCodes.badGateway) {
+        debugPrint('502 error');
+      } else if (dioError.response?.statusCode == HttpStatusCodes.notFound) {
+        debugPrint("404 error");
+      } else if (true) {
+        debugPrint('the response data ----> ${dioError.response?.data}');
       }
 
       onErrorResponse(dioError);
@@ -67,8 +77,6 @@ abstract class BaseController extends GetxController {
       message = data;
     }
 
-    debugPrint(
-      'API Error → $statusCode | ${error.requestOptions.uri} | $message',
-    );
+    debugPrint('API Error → $statusCode | ${error.requestOptions.uri} | $message');
   }
 }

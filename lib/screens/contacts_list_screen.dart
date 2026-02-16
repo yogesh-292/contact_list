@@ -5,42 +5,34 @@ class ContactsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<UserController>();
+    final userController = Get.find<UserController>();
 
     return Obx(() {
-      if (controller.loading.value) {
-        return const Center(
-            child: CircularProgressIndicator(
-          color: Colors.black38,
-        ));
+      if (userController.loading.value) {
+        return const Center(child: CircularProgressIndicator(color: Colors.black38));
       }
 
-      if (controller.error.value != null) {
+      if (userController.error.value != null) {
         return Center(
-          child: Text(
-            controller.error.value!,
-            style: const TextStyle(color: Colors.red),
-          ),
+          child: Text(userController.error.value!, style: const TextStyle(color: Colors.red)),
         );
       }
 
-      if (controller.users.isEmpty) {
+      if (userController.users.isEmpty) {
         return const Center(
-            child: Text(
-          'No contacts found',
-          style: TextStyle(color: Colors.red),
-        ));
+          child: Text('No contacts found', style: TextStyle(color: Colors.red)),
+        );
       }
 
       return RefreshIndicator(
         onRefresh: () async {
-          controller.fetchUsers();
+          userController.fetchUsers();
         },
         child: ListView.separated(
-          itemCount: controller.users.length,
+          itemCount: userController.users.length,
           separatorBuilder: (_, __) => const Divider(height: 1),
           itemBuilder: (context, index) {
-            final user = controller.users[index];
+            final user = userController.users[index];
 
             return ListTile(
               onTap: () {
@@ -48,10 +40,7 @@ class ContactsListScreen extends StatelessWidget {
               },
               leading: CircleAvatar(
                 backgroundColor: const Color.fromARGB(192, 43, 43, 42),
-                child: Text(
-                  user.initials,
-                  style: const TextStyle(color: Colors.white),
-                ),
+                child: Text(user.initials, style: const TextStyle(color: Colors.white)),
               ),
               title: Text(user.name),
               subtitle: Text(user.phone),

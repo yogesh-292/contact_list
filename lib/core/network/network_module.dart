@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_practice/core/network/api_services.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:flutter_practice/core/app_imports.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
+import 'package:flutter_practice/core/logger/app_logger.dart';
 import './quotes_api_service.dart';
 
 class NetworkModule {
@@ -11,17 +12,17 @@ class NetworkModule {
 
     dio.interceptors.add(ApiInterceptor());
 
-    // Add logger ONLY in debug mode
+    // Add Talker logger ONLY in debug mode
     if (kDebugMode) {
       dio.interceptors.add(
-        PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseBody: true,
-          responseHeader: false,
-          error: true,
-          compact: false,
-          maxWidth: 120,
+        TalkerDioLogger(
+          talker: talker, // 👈 THIS is important
+          settings: const TalkerDioLoggerSettings(
+            printRequestHeaders: true,
+            printRequestData: true,
+            printResponseData: true,
+            printResponseHeaders: false,
+          ),
         ),
       );
     }
@@ -29,10 +30,7 @@ class NetworkModule {
     return dio;
   }
 
-  ///pulls the already-registered Dio instance from GetX
-  ///injects it into ApiService
-  ///returns a fully configured API client
-
   static ApiService getRestClient() => ApiService(Get.find<Dio>(), baseUrl: BaseConfig.baseUrl);
+
   static QuotesApiService getQuotesClient() => QuotesApiService(Get.find<Dio>(), baseUrl: BaseConfig.quotesUrl);
 }
