@@ -3,6 +3,7 @@ import 'package:flutter_practice/data/model/products_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../data/model/quotes_response_model.dart';
+import '../../data/model/carts_response.dart';
 
 part 'quotes_api_service.g.dart';
 
@@ -14,4 +15,7 @@ abstract class QuotesApiService {
 
   @GET('products')
   Future<ProductsResponse> getProducts();
+
+  @GET('carts')
+  Future<CartsResponse> getCarts();
 }

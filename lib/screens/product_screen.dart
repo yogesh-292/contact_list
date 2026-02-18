@@ -5,6 +5,7 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('the context of the product screen widget is---> $context');
     final ProductController controller = Get.find<ProductController>();
 
     return Scaffold(

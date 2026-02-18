@@ -46,6 +46,8 @@ abstract class BaseController extends GetxController {
         debugPrint('502 error');
       } else if (dioError.response?.statusCode == HttpStatusCodes.notFound) {
         debugPrint("404 error");
+      } else if (dioError.response?.statusCode == HttpStatusCodes.tooManyRequests) {
+        Get.snackbar("Dio Error", "api limit exceeded");
       } else if (true) {
         debugPrint('the response data ----> ${dioError.response?.data}');
       }
