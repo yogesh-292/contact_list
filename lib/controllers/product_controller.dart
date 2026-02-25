@@ -1,5 +1,4 @@
 import 'package:flutter_practice/core/app_imports.dart';
-import '../core/network/quotes_api_service.dart';
 
 /// ------------------------------------------------------------
 /// ProductController
@@ -14,10 +13,6 @@ import '../core/network/quotes_api_service.dart';
 /// method for handling API calls in a structured way.
 /// ------------------------------------------------------------
 class ProductController extends BaseController {
-  /// Injected API service using GetX dependency injection.
-  /// This service handles network requests related to products.
-  final QuotesApiService _quotesApiService = Get.find<QuotesApiService>();
-
   /// Reactive list that holds all fetched products.
   /// `.obs` makes it observable so UI updates automatically.
   final RxList<Product> products = <Product>[].obs;
@@ -52,7 +47,7 @@ class ProductController extends BaseController {
   void fetchProducts() {
     executeApi(
       /// API request function
-      request: () => _quotesApiService.getProducts(),
+      request: () => apiService.getProducts(),
 
       /// Called when API request succeeds
       onSuccess: (data) {

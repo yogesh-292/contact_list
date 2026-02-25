@@ -61,7 +61,12 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             /// Navigates to Cart Screen
-            MenuButton(title: "Carts Screen", onTap: () => Get.to(() => CartPage())),
+            MenuButton(title: "   Carts Screen  ", onTap: () => Get.to(() => CartPage())),
+
+            const SizedBox(height: 20),
+
+            /// Navigates to Recipies Screen
+            MenuButton(title: "Recipes Screen", onTap: () => Get.to(() => RecipesScreen())),
           ],
         ),
       ),

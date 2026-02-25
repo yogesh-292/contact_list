@@ -16,26 +16,31 @@ class CartPage extends GetView<CartController> {
           return const Center(child: Text("No carts found"));
         }
 
-        return ListView.builder(
-          itemCount: controller.carts.length,
-          itemBuilder: (context, index) {
-            final cart = controller.carts[index];
-
-            return Card(
-              child: ExpansionTile(
-                title: Text("Cart ID: ${cart.id}"),
-                subtitle: Text("Total: \$${cart.discountedTotal}"),
-                children: cart.products.map((product) {
-                  return ListTile(
-                    leading: Image.network(product.thumbnail, width: 50),
-                    title: Text(product.title),
-                    subtitle: Text("Qty: ${product.quantity}"),
-                    trailing: Text("\$${product.discountedTotal}"),
-                  );
-                }).toList(),
-              ),
-            );
+        return RefreshIndicator(
+          onRefresh: () async {
+            controller.fetchCarts();
           },
+          child: ListView.builder(
+            itemCount: controller.carts.length,
+            itemBuilder: (context, index) {
+              final cart = controller.carts[index];
+
+              return Card(
+                child: ExpansionTile(
+                  title: Text("Cart ID: ${cart.id}"),
+                  subtitle: Text("Total: \$${cart.discountedTotal}"),
+                  children: cart.products.map((product) {
+                    return ListTile(
+                      leading: Image.network(product.thumbnail, width: 50),
+                      title: Text(product.title),
+                      subtitle: Text("Qty: ${product.quantity}"),
+                      trailing: Text("\$${product.discountedTotal}"),
+                    );
+                  }).toList(),
+                ),
+              );
+            },
+          ),
         );
       }),
     );

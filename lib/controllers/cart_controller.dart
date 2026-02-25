@@ -1,5 +1,4 @@
 import 'package:flutter_practice/core/app_imports.dart';
-import 'package:flutter_practice/core/network/quotes_api_service.dart';
 
 /// ------------------------------------------------------------
 /// CartController
@@ -14,10 +13,6 @@ import 'package:flutter_practice/core/network/quotes_api_service.dart';
 /// helper method for structured API execution handling.
 /// ------------------------------------------------------------
 class CartController extends BaseController {
-  /// Injected API service using GetX dependency injection.
-  /// Used to perform network calls related to cart data.
-  final QuotesApiService apiService = Get.find<QuotesApiService>();
-
   /// Reactive list that stores individual cart items.
   /// `.obs` makes it observable so UI automatically updates
   /// when cart data changes.

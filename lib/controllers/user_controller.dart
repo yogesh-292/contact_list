@@ -1,4 +1,3 @@
-import '../core/network/api_services.dart';
 import 'package:flutter_practice/core/app_imports.dart';
 
 /// ------------------------------------------------------------
@@ -14,10 +13,6 @@ import 'package:flutter_practice/core/app_imports.dart';
 /// helper method to standardize API execution and error handling.
 /// ------------------------------------------------------------
 class UserController extends BaseController {
-  /// Injected API service using GetX dependency injection.
-  /// Handles network requests related to users.
-  final ApiService _apiService = Get.find<ApiService>();
-
   /// Reactive nullable string used to store error messages.
   /// If API fails or returns invalid data, this will contain the error.
   final RxnString error = RxnString();
@@ -53,7 +48,7 @@ class UserController extends BaseController {
   void fetchUsers() {
     executeApi(
       /// API request function
-      request: () => _apiService.getUsers(),
+      request: () => userApiService.getUsers(),
 
       /// Enables loading indicator (handled inside BaseController)
       showLoader: true,

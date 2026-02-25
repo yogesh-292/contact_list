@@ -1,7 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_practice/core/app_imports.dart';
+import 'package:flutter_practice/core/network/api_services.dart';
+import 'package:flutter_practice/core/network/rest_client.dart';
 
 abstract class BaseController extends GetxController {
+  /// Shared API client injected using the GetX dependency injection
+  /// All features controllers should use this instead of creating
+  /// thier own RestClient instance
+
+  //  WebhookClient get webhookClient => Get.find<WebhookClient>();
+
+  RestClient get apiService => Get.find<RestClient>();
+
+  // final RestClient apiService = Get.find<RestClient>();
+  final ApiService userApiService = Get.find<ApiService>();
+  // Reactive loading state used to show/hide global loader
   final RxBool loading = false.obs;
 
   //Executes an API call safely

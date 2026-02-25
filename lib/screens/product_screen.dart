@@ -29,26 +29,31 @@ class ProductScreen extends StatelessWidget {
         }
 
         // Products list
-        return ListView.separated(
-          padding: const EdgeInsets.all(12),
-          itemCount: controller.products.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 8),
-          itemBuilder: (context, index) {
-            final product = controller.products[index];
-
-            return Card(
-              elevation: 2,
-              child: ListTile(
-                leading: Image.network(product.thumbnail, width: 50, height: 50, fit: BoxFit.cover),
-                title: Text(product.title),
-                subtitle: Text('₹ ${product.price}', style: const TextStyle(fontWeight: FontWeight.w600)),
-                trailing: Icon(
-                  product.inStock ? Icons.check_circle : Icons.remove_circle,
-                  color: product.inStock ? Colors.green : Colors.red,
-                ),
-              ),
-            );
+        return RefreshIndicator(
+          onRefresh: () async {
+            controller.fetchProducts();
           },
+          child: ListView.separated(
+            padding: const EdgeInsets.all(12),
+            itemCount: controller.products.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final product = controller.products[index];
+
+              return Card(
+                elevation: 2,
+                child: ListTile(
+                  leading: Image.network(product.thumbnail, width: 50, height: 50, fit: BoxFit.cover),
+                  title: Text(product.title),
+                  subtitle: Text('₹ ${product.price}', style: const TextStyle(fontWeight: FontWeight.w600)),
+                  trailing: Icon(
+                    product.inStock ? Icons.check_circle : Icons.remove_circle,
+                    color: product.inStock ? Colors.green : Colors.red,
+                  ),
+                ),
+              );
+            },
+          ),
         );
       }),
     );
