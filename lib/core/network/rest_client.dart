@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_practice/data/model/products_response.dart';
+import 'package:flutter_practice/data/model/recipe_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../data/model/quotes_response_model.dart';
 import '../../data/model/carts_response.dart';
 
-part 'quotes_api_service.g.dart';
+part 'rest_client.g.dart';
 
 @RestApi()
-abstract class QuotesApiService {
-  factory QuotesApiService(Dio dio, {required String baseUrl}) = _QuotesApiService;
+abstract class RestClient {
+  factory RestClient(Dio dio, {required String baseUrl}) = _RestClient;
   @GET('quotes')
   Future<QuotesResponse> getQuotes();
 
@@ -18,4 +19,7 @@ abstract class QuotesApiService {
 
   @GET('carts')
   Future<CartsResponse> getCarts();
+
+  @GET('recipes')
+  Future<RecipesResponse> fetchRecipes();
 }

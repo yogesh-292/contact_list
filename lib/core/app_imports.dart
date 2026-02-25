@@ -25,3 +25,6 @@ export 'package:json_annotation/json_annotation.dart';
 export '../data/model/carts_response.dart';
 export '../data/model/cart_model.dart';
 export '../widgets/menu_button.dart';
+export '../data/model/recipe_model.dart';
+export '../controllers/recipes_controller.dart';
+export '../screens/recipes_screen.dart';

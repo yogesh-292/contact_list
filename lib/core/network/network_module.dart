@@ -4,7 +4,7 @@ import 'package:flutter_practice/core/network/api_services.dart';
 import 'package:flutter_practice/core/app_imports.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:flutter_practice/core/logger/app_logger.dart';
-import './quotes_api_service.dart';
+import 'rest_client.dart';
 
 class NetworkModule {
   static Dio prepareDio() {
@@ -32,5 +32,5 @@ class NetworkModule {
 
   static ApiService getRestClient() => ApiService(Get.find<Dio>(), baseUrl: BaseConfig.baseUrl);
 
-  static QuotesApiService getQuotesClient() => QuotesApiService(Get.find<Dio>(), baseUrl: BaseConfig.quotesUrl);
+  static RestClient getQuotesClient() => RestClient(Get.find<Dio>(), baseUrl: BaseConfig.quotesUrl);
 }

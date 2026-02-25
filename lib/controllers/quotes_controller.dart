@@ -1,6 +1,5 @@
 import 'package:flutter_practice/core/app_imports.dart';
 import 'package:flutter_practice/data/model/quotes_model.dart';
-import '../core/network/quotes_api_service.dart';
 
 /// ------------------------------------------------------------
 /// QuotesController
@@ -15,10 +14,6 @@ import '../core/network/quotes_api_service.dart';
 /// helper method for structured API handling.
 /// ------------------------------------------------------------
 class QuotesController extends BaseController {
-  /// Injected API service using GetX dependency injection.
-  /// Handles network requests related to quotes.
-  final QuotesApiService _quotesApiService = Get.find<QuotesApiService>();
-
   /// Reactive nullable string used to store error messages.
   /// If an error occurs during API call, this will hold the message.
   final RxnString error = RxnString();
@@ -56,7 +51,7 @@ class QuotesController extends BaseController {
   Future<void> fetchQuotes() {
     return executeApi(
       /// API request function
-      request: () => _quotesApiService.getQuotes(),
+      request: () => apiService.getQuotes(),
 
       /// Enables loading indicator (handled inside BaseController)
       showLoader: true,

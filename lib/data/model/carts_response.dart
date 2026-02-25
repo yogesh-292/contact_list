@@ -1,5 +1,4 @@
 import 'package:flutter_practice/core/app_imports.dart';
-import 'cart_model.dart';
 
 part 'carts_response.g.dart';
 
